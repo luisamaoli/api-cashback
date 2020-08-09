@@ -2,8 +2,13 @@ Rails.application.routes.draw do
   namespace 'api' do
 	  namespace 'v1' do
 		resources :balances
+		get 'balances/:id', to: 'balances#show'
 		resources :companies
-		resources :customers		  
+		get 'companies/:id', to: 'companies#show'
+		resources :customers
+		get 'customers/:id', to: 'customers#show'	
+		post "/customers/:id/buyticket", to: 'customers#buyticket'
+		post "/customers/:id/buyticketwithcashback", to: 'customers#buyticketwithcashback'		  
   	end
   end
 end
