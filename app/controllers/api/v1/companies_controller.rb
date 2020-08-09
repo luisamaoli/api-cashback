@@ -1,4 +1,7 @@
 class Api::V1::CompaniesController < ApplicationController
+    acts_as_token_authentication_handler_for User
+ 
+    before_action :require_authentication!
 
     include Response
 
@@ -24,5 +27,12 @@ class Api::V1::CompaniesController < ApplicationController
         rescue ActiveRecord::RecordNotFound
             render  plain: 'Company is not in the Database',
             status: 404
+    end
+
+    private
+ 
+    def require_authentication!
+ 
+        throw(:warden, scope: :user) unless current_user.presence 
     end
 end

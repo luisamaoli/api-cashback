@@ -1,4 +1,7 @@
 class Api::V1::CustomersController < ApplicationController
+    acts_as_token_authentication_handler_for User
+ 
+    before_action :require_authentication!
 
     include Response
 
@@ -64,5 +67,10 @@ class Api::V1::CustomersController < ApplicationController
         
     def customer_params
         params.permit(:customer_name, :numbers_of_ticket)
+    end
+ 
+    def require_authentication!
+ 
+        throw(:warden, scope: :user) unless current_user.presence 
     end
 end
