@@ -26,14 +26,6 @@ class Api::V1::CustomersController < ApplicationController
             status: 404
     end
 
-    def create
-        customer = Customer.new(customer_params)
-        if customer.save
-            json_response(customer)       
-        end
-    end
-
-
     def buyticket
         customer_service = CustomerService::DataAccess
         customer_id = params[:id]
@@ -58,11 +50,5 @@ class Api::V1::CustomersController < ApplicationController
     rescue ActiveRecord::RecordNotFound
         render  plain: 'Custumer is not in the Database',
         status: 404  
-    end
-
-    private
-        
-    def customer_params
-        params.permit(:customer_name, :numbers_of_ticket)
     end
 end
